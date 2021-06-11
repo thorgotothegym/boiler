@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { Row, Col } from "antd";
 import { Login } from "./containers/Login/Login";
+import { Sensors } from './containers/Sensors/Sensors';
 import styled from "styled-components";
 
 export const App = () => {
@@ -12,12 +13,12 @@ export const App = () => {
           <BrowserRouter>
           <Switch>
           <Route
-              data-testid="route-login"
+              data-testid="route-sensors"
               exact={true}
               path="/"
               component={Login}
             />
-            <Redirect to="/sensors" />
+            <Route exact path="/sensors" component={Sensors} />
           </Switch>
         </BrowserRouter>
         </Col>

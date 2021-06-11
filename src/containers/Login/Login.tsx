@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Input, Tooltip, Space, Button, Checkbox, Form } from "antd";
-import { useHistory } from "react-router";
+import { Input, Tooltip, Space, Button, Alert} from "antd";
+import { useHistory } from "react-router-dom";
+
 import styled from "styled-components";
 import {
   InfoCircleOutlined,
@@ -12,9 +13,11 @@ import {
 import axios from "axios";
 
 export const Login = () => {
-  const [userName, setUserName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const history = useHistory();
+
+  const [userName, setUserName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const loginUser = async (user: string, pass: string) => {
     const config = {
@@ -29,7 +32,11 @@ export const Login = () => {
       const response = await axios.post(
         `http://127.0.0.1:8000/auth/login`, bodyFormat, config
       );
-      console.log("reponse", response);
+      console.log("response", response);
+      //TODO EXTRACT 
+      localStorage.setItem('data', JSON.stringify(response.data) )
+      history.push('/sensors')
+
     } catch (error) {
       console.log("error", error);
     }
