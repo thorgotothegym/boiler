@@ -9,22 +9,30 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 
+import axios from "axios";
+
 export const Login = () => {
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const loginUser = async (user: string, pass: string) => {
-    console.log(userName, pass);
-    if (userName === "paco" && pass === "paco") {
-      console.log("you can pass");
-    } else {
-      alert("you dont have rights");
+    const config = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+    };
+    const bodyFormat = new FormData();
+    bodyFormat.set('username', user)
+    bodyFormat.set('password', pass)
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:8000/auth/login`, bodyFormat, config
+      );
+      console.log("reponse", response);
+    } catch (error) {
+      console.log("error", error);
     }
-  };
-
-  const handleSubmit = (user: string, pass: string) => {
-    console.log("user", user, "pass", pass);
   };
 
   return (
@@ -53,7 +61,7 @@ export const Login = () => {
           type="primary"
           data-testid="button-login"
           onClick={() => {
-            handleSubmit(userName, password);
+            loginUser(userName, password);
           }}
         >
           Enter
@@ -63,6 +71,4 @@ export const Login = () => {
   );
 };
 
-const WrapperLogin = styled.div`
-
-`;
+const WrapperLogin = styled.div``;
